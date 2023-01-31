@@ -1,19 +1,9 @@
 <?php
 session_start();
-$user_id = $_SESSION['user_id'];
-$nama_lengkap = $_SESSION['nama_lengkap'];
-$role = $_SESSION['role'];
-$status = $_SESSION['status'];
 
-if ($status != "login") {
-  header("location:../index.php?message=silahkan login terlebih dahulu!");
+if (isset($_SESSION['status']) && $_SESSION['status'] == "login") {
+  header("location:dashboard/index.php?message=selamat datang kembali...");
 }
-
-if (isset($_POST['logout'])) {
-  session_destroy();
-  header("location:../index.php?message=terimakasih sudah berkunjung");
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -23,32 +13,26 @@ if (isset($_POST['logout'])) {
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style-dashboard1.css" />
-  <title>DASHBOARD</title>
+  <link rel="stylesheet" href="style1.css" />
+  <title>ABSENSI PAGE</title>
 </head>
 
 <body>
-  <h3 class="judul">Dashboard</h3>
-  <div class="kata-das">
-    <p>
-      <?php
-      if (isset($_GET['message'])) {
-        echo $_GET['message'];
-      }
-      ?>
-    </p>
-    <i>Halo <?= $nama_lengkap ?></i>
-    <p>Status kepegawaian: <?= $role ?></p>
-    <br />
+  <div class="container">
+    <div class="wrapper">
+      <h3 class="login-title">Login System</h3>
+      <form action="login.php" method="POST" class="login-form">
+        <?php
+        if (isset($_GET['message'])) {
+          echo $_GET['message'];
+        }
+        ?>
+        <input name="user_id" type="text" class="login-input" />
+        <input name="password" type="password" class="login-input" />
+        <button type="submit" name="login" class="login-button">MASUK</button>
+      </form>
+    </div>
   </div>
-
-  <!-- showing a attendances data -->
-  <?php include("absensi.php"); ?>
-
-  <form action="" method="POST">
-    <button type="submit" name="logout" class="logout">logout</button>
-  </form>
-
 </body>
 
 </html>
